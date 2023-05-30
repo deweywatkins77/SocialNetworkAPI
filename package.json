@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/deweywatkins77/SocialNetworkAPI#readme",
   "dependencies": {
+    "console.table": "^0.10.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongodb": "^5.5.0",
