@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const reactionSchema = require('./reaction')
 
-const thoughtSchema = new Schema(
+const thoughtsSchema = new Schema(
   {
     thoughtText: {
       type: String,
@@ -29,14 +29,14 @@ const thoughtSchema = new Schema(
   }
 )
 
-thoughtSchema.virtual('reactionCount').get(function() {
+thoughtsSchema.virtual('reactionCount').get(function() {
     return `${this.reactions.length}`
 })
 
-  thoughtSchema.virtual('getDate').get(function() {
+  thoughtsSchema.virtual('getDate').get(function() {
     return `${this.createdAt.toLocaleString('en-US')}`
 })
 
-const Thought = mongoose.model('thought', thoughtSchema)
+const Thoughts = mongoose.model('thoughts', thoughtsSchema)
 
-module.exports = Thought
+module.exports = Thoughts
