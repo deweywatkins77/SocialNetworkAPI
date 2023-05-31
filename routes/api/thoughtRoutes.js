@@ -20,3 +20,5 @@
 // * `DELETE` to remove a thought by its `_id`
 
 // ---
+const router =''
+module.exports = router
