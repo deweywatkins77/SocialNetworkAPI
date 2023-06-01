@@ -18,6 +18,16 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: function (createdAt){
+        return createdAt.toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        });
+      }
     },
   },
   {
@@ -28,9 +38,5 @@ const reactionSchema = new Schema(
     versionKey: false
   }
 );
-
-reactionSchema.virtual('getDate').get(function() {
-    return `${this.createdAt.toLocaleString('en-US')}`
-});
 
 module.exports = reactionSchema
