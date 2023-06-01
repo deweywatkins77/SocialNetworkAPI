@@ -1,35 +1,3 @@
-// **`/api/users`**
-
-          // * `GET` all users
-
-          // * `GET` a single user by its `_id` and populated thought and friend data
-
-          // * `POST` a new user:
-
-          // ```json
-          // // example data
-          // {
-          //   "username": "lernantino",
-          //   "email": "lernantino@gmail.com"
-          // }
-          // ```
-
-          // * `PUT` to update a user by its `_id`
-
-          // * `DELETE` to remove user by its `_id`
-
-          // **BONUS**: Remove a user's associated thoughts when deleted.
-
-          // ---
-
-// **`/api/users/:userId/friends/:friendId`**
-
-// * `POST` to add a new friend to a user's friend list
-
-// * `DELETE` to remove a friend from a user's friend list
-
-// ---
-
 const { Users, Thoughts } = require('../models');
 
 module.exports = {
@@ -92,64 +60,23 @@ async delUser(req, res) {
 },
 
 // add friend to user
-async delUser(req, res) {
+async addFriend(req, res) {
   try{
-      await Users.findOne({_id:req.params.id}).select('thoughts')
-      let thoughtIds = doc.thoughts.map(thoughtId => thoughtId.toString());
+      await Users.updateOne({_id:req.params.id},{$push :{friends:req.params.friendId}})
+      res.status(200).json({message:"Friend has been added to user!"})
+  }catch(err){
+      res.status(500).json(err)
+  }
+},
 
-      for (i=0; i < thoughtIds.length; i++){
-        await Thoughts.deleteOne({_id:thoughtIds[i]})
-      }
-
-      await Users.deleteOne({_id:req.params.id})
-      res.status(200).json({message:"The user and their thoughts have been deleted!"})
+// del friend from user
+async delFriend(req, res) {
+  try{
+      await Users.updateOne({_id:req.params.id},{$pop :{friends:req.params.friendId}})
+      res.status(200).json({message:"Friend has been removed from user!"})
   }catch(err){
       res.status(500).json(err)
   }
 }
-//   // Get a course
-//   getSingleCourse(req, res) {
-//     Course.findOne({ _id: req.params.courseId })
-//       .select('-__v')
-//       .then((course) =>
-//         !course
-//           ? res.status(404).json({ message: 'No course with that ID' })
-//           : res.json(course)
-//       )
-//       .catch((err) => res.status(500).json(err));
-//   },
-//   // Create a course
-//   createCourse(req, res) {
-//     Course.create(req.body)
-//       .then((course) => res.json(course))
-//       .catch((err) => {
-//         console.log(err);
-//         return res.status(500).json(err);
-//       });
-//   },
-//   // Delete a course
-//   deleteCourse(req, res) {
-//     Course.findOneAndDelete({ _id: req.params.courseId })
-//       .then((course) =>
-//         !course
-//           ? res.status(404).json({ message: 'No course with that ID' })
-//           : Student.deleteMany({ _id: { $in: course.students } })
-//       )
-//       .then(() => res.json({ message: 'Course and students deleted!' }))
-//       .catch((err) => res.status(500).json(err));
-//   },
-//   // Update a course
-//   updateCourse(req, res) {
-//     Course.findOneAndUpdate(
-//       { _id: req.params.courseId },
-//       { $set: req.body },
-//       { runValidators: true, new: true }
-//     )
-//       .then((course) =>
-//         !course
-//           ? res.status(404).json({ message: 'No course with this id!' })
-//           : res.json(course)
-//       )
-//       .catch((err) => res.status(500).json(err));
-//   },
+
 }

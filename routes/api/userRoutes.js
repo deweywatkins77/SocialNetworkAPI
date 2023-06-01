@@ -50,6 +50,6 @@ router.route('/:id')
 
 router.route('/:id/friends/:friendId')
   .post(addFriend)
-  .del(delFriend)
+  .delete(delFriend)
 
 module.exports = router;
