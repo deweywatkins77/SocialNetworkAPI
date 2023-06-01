@@ -1,26 +1,26 @@
 // **`/api/users`**
 
-    // * `GET` all users
+          // * `GET` all users
 
-// * `GET` a single user by its `_id` and populated thought and friend data
+          // * `GET` a single user by its `_id` and populated thought and friend data
 
-// * `POST` a new user:
+          // * `POST` a new user:
 
-// ```json
-// // example data
-// {
-//   "username": "lernantino",
-//   "email": "lernantino@gmail.com"
-// }
-// ```
+          // ```json
+          // // example data
+          // {
+          //   "username": "lernantino",
+          //   "email": "lernantino@gmail.com"
+          // }
+          // ```
 
-// * `PUT` to update a user by its `_id`
+          // * `PUT` to update a user by its `_id`
 
-// * `DELETE` to remove user by its `_id`
+          // * `DELETE` to remove user by its `_id`
 
-// **BONUS**: Remove a user's associated thoughts when deleted.
+          // **BONUS**: Remove a user's associated thoughts when deleted.
 
-// ---
+          // ---
 
 // **`/api/users/:userId/friends/:friendId`**
 
@@ -39,7 +39,7 @@ module.exports = {
         let users = await Users.find()
         res.status(200).json(users)
     }catch(err){
-        res.status(500).json({message:"No Users found!"})
+        res.status(500).json(err)
     }
   },
 
@@ -50,17 +50,44 @@ async getUserById(req, res) {
         .populate(['thoughts', 'friends'])
       res.status(200).json(users)
   }catch(err){
-      res.status(500).json({message:"Incorrect ID!"})
+      res.status(500).json(err)
   }
 },
 
 //create new user
 async createUser(req, res) {
   try{
-      let request = await Users.create(req.body)
-      res.status(200).json(request)
+      let response = await Users.create(req.body)
+      res.status(200).json(response)
   }catch(err){
       res.status(500).json({message: "Username/Email already exists, or bad format for fields, check requirements!"})
+  }
+},
+
+//update user by id
+async updateUser(req, res) {
+  try{
+      let response = await Users.updateOne({_id:req.params.id}, req.body)
+      res.status(200).json(response)
+  }catch(err){
+      res.status(500).json({message: "Incorrect ID, or bad format for fields, check requirements!"})
+  }
+},
+
+//del user by id
+async delUser(req, res) {
+  try{
+      let doc = await Users.findOne({_id:req.params.id}).select('thoughts')
+      let thoughtIds = doc.thoughts.map(thoughtId => thoughtId.toString());
+
+      for (i=0; i < thoughtIds.length; i++){
+        await Thoughts.deleteOne({_id:thoughtIds[i]})
+      }
+
+      await Users.deleteOne({_id:req.params.id})
+      res.status(200).json({message:"The user and their thoughts have been deleted!"})
+  }catch(err){
+      res.status(500).json(err)
   }
 }
 //   // Get a course

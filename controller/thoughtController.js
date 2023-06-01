@@ -20,3 +20,17 @@
 // * `DELETE` to remove a thought by its `_id`
 
 // ---
+
+const { Users, Thoughts } = require('../models');
+
+module.exports = {
+    async createThought(req, res) {
+        try{
+            let newRecord = await Thoughts.create(req.body)
+            await Users.updateOne({username:newRecord.username},{$push :{thoughts:newRecord._id}})
+            res.status(200).json({message:"Thought created and user record updated with thought."})
+        }catch(err){
+            res.status(500).json(err)
+        }
+      },
+}

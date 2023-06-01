@@ -14,9 +14,9 @@
               // }
               // ```
 
-// * `PUT` to update a user by its `_id`
+              // * `PUT` to update a user by its `_id`
 
-// * `DELETE` to remove user by its `_id`
+              // * `DELETE` to remove user by its `_id`
 
 // **BONUS**: Remove a user's associated thoughts when deleted.
 
@@ -35,6 +35,8 @@ const {
   getUsers,
   getUserById,
   createUser,
+  updateUser,
+  delUser
 //   deleteStudent,
 //   addAssignment,
 //   removeAssignment,
@@ -42,7 +44,10 @@ const {
 
 // /api/users
 router.route('/').get(getUsers).post(createUser);
-router.route('/:id').get(getUserById)
+router.route('/:id')
+  .get(getUserById)
+  .put(updateUser)
+  .delete(delUser)
 
 // // /api/students/:studentId
 // router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);

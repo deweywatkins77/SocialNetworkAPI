@@ -20,5 +20,31 @@
 // * `DELETE` to remove a thought by its `_id`
 
 // ---
-const router =''
-module.exports = router
+const router = require('express').Router();
+const {
+    createThought,
+//   deleteStudent,
+//   addAssignment,
+//   removeAssignment,
+} = require('../../controller/thoughtController');
+
+// /api/thoughts
+router.route('/').post(createThought)
+
+// /api/users
+// router.route('/').get(getUsers).post(createUser);
+// router.route('/:id')
+//   .get(getUserById)
+//   .put(updateUser)
+//   .delete(delUser)
+
+// // /api/students/:studentId
+// router.route('/:studentId').get(getSingleStudent).delete(deleteStudent);
+
+// // /api/students/:studentId/assignments
+// router.route('/:studentId/assignments').post(addAssignment);
+
+// // /api/students/:studentId/assignments/:assignmentId
+// router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
+
+module.exports = router;
