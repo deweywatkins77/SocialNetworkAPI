@@ -72,7 +72,7 @@ async addFriend(req, res) {
 // del friend from user
 async delFriend(req, res) {
   try{
-      await Users.updateOne({_id:req.params.id},{$pop :{friends:req.params.friendId}})
+      await Users.updateOne({_id:req.params.id},{$pull :{friends:req.params.friendId}})
       res.status(200).json({message:"Friend has been removed from user!"})
   }catch(err){
       res.status(500).json(err)
