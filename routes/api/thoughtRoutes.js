@@ -22,6 +22,8 @@
 // ---
 const router = require('express').Router();
 const {
+    getThoughts,
+    getThoughtById,
     createThought,
 //   deleteStudent,
 //   addAssignment,
@@ -29,7 +31,9 @@ const {
 } = require('../../controller/thoughtController');
 
 // /api/thoughts
-router.route('/').post(createThought)
+router.route('/').get(getThoughts).post(createThought)
+
+router.route('/:id').get(getThoughtById)
 
 // /api/users
 // router.route('/').get(getUsers).post(createUser);

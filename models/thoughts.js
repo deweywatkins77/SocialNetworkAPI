@@ -18,6 +18,16 @@ const thoughtsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: function (createdAt){
+        return createdAt.toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        });
+      }
     },
     reactions:[reactionSchema]
   },
@@ -32,10 +42,6 @@ const thoughtsSchema = new Schema(
 
 thoughtsSchema.virtual('reactionCount').get(function() {
     return `${this.reactions.length}`
-})
-
-  thoughtsSchema.virtual('getDate').get(function() {
-    return `${this.createdAt.toLocaleString('en-US')}`
 })
 
 const Thoughts = mongoose.model('thoughts', thoughtsSchema)
