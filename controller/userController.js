@@ -46,9 +46,9 @@ module.exports = {
 //get user by id
 async getUserById(req, res) {
   try{
-      let users = await Users.find({_id: {$eq: req.params.id}})
+      let user = await Users.find({_id: {$eq: req.params.id}})
         .populate(['thoughts', 'friends'])
-      res.status(200).json(users)
+      res.status(200).json(user)
   }catch(err){
       res.status(500).json(err)
   }
@@ -78,6 +78,23 @@ async updateUser(req, res) {
 async delUser(req, res) {
   try{
       let doc = await Users.findOne({_id:req.params.id}).select('thoughts')
+      let thoughtIds = doc.thoughts.map(thoughtId => thoughtId.toString());
+
+      for (i=0; i < thoughtIds.length; i++){
+        await Thoughts.deleteOne({_id:thoughtIds[i]})
+      }
+
+      await Users.deleteOne({_id:req.params.id})
+      res.status(200).json({message:"The user and their thoughts have been deleted!"})
+  }catch(err){
+      res.status(500).json(err)
+  }
+},
+
+// add friend to user
+async delUser(req, res) {
+  try{
+      await Users.findOne({_id:req.params.id}).select('thoughts')
       let thoughtIds = doc.thoughts.map(thoughtId => thoughtId.toString());
 
       for (i=0; i < thoughtIds.length; i++){
