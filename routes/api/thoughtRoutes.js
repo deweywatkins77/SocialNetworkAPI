@@ -25,6 +25,8 @@ const {
     getThoughts,
     getThoughtById,
     createThought,
+    updateThought,
+    delThought
 //   deleteStudent,
 //   addAssignment,
 //   removeAssignment,
@@ -33,7 +35,10 @@ const {
 // /api/thoughts
 router.route('/').get(getThoughts).post(createThought)
 
-router.route('/:id').get(getThoughtById)
+router.route('/:id')
+    .get(getThoughtById)
+    .put(updateThought)
+    .delete(delThought)
 
 // /api/users
 // router.route('/').get(getUsers).post(createUser);

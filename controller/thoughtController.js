@@ -15,7 +15,7 @@
                     // }
                     // ```
 
-// * `PUT` to update a thought by its `_id`
+                    // * `PUT` to update a thought by its `_id`
 
 // * `DELETE` to remove a thought by its `_id`
 
@@ -54,5 +54,27 @@ async createThought(req, res) {
     }catch(err){
         res.status(500).json(err)
     }
-    },
+},
+
+
+//update thought by id
+async updateThought(req, res) {
+    try{
+        await Thoughts.updateOne({_id:req.params.id}, req.body)
+        res.status(200).json({message:"Thought updated."})
+    }catch(err){
+        res.status(500).json(err)
+    }
+},
+
+//delete thought by id
+async delThought(req,res){
+    try{
+        await Thoughts.deleteOne({_id:req.params.id})
+        res.status(200).json({message:"Thought Deleted!"})
+    }catch(err){
+        res.status(500).json(err)
+    }
+}
+
 }
