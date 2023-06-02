@@ -29,9 +29,9 @@ npm i
 
 ## Usage
 
-It uses a mongoDB. The seed.js file in /utils will randomly generate test data. Put your mongo url in a .env file, an example is provided. The users controller and routes handles everything for the users collection including adding friends to users, the thoughts controller and route files handles everything for the thoughts collection including adding and deleting reactions.
+It uses a Mongo database. The seed.js file in /utils will randomly generate test data. Put your mongo url in a .env file, an example is provided. The users controller and routes handles everything for the users collection including adding friends to users, the thoughts controller and route files handles everything for the thoughts collection including adding and deleting reactions.
 
-[https://watch.screencastify.com/v/UBwy86TtWzpNx6ToGG0B](How To Video)
+[How To Video](https://watch.screencastify.com/v/UBwy86TtWzpNx6ToGG0B)
 
 ## License
 
