@@ -59,7 +59,7 @@ async delThought(req,res){
 //create reaction
 async createReaction(req, res){
     try{
-        await Thoughts.updateOne({_id:req.params.id}, {reactions: {$push:req.body}})
+        await Thoughts.updateOne({_id:req.params.id}, {$push:{reactions: req.body}})
         res.status(200).json({message:"Reaction added to Thought"})
     }catch(err){
         res.status(500).json(err)

@@ -39,7 +39,7 @@ for (i=0; i < thoughtData.length; i++){
 }
 
 //insert data into collections
-await Users.collection.insertMany(users)
+await Users.insertMany(users)
 
 let randNum = Math.floor(Math.random()*4+2)
 for (i=1; i <= randNum; i++){
